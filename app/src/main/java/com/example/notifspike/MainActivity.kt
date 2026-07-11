@@ -76,7 +76,9 @@ class MainActivity : AppCompatActivity() {
     private fun refreshList() {
         val items = NotificationStore.getAll().map { n ->
             val time = DateFormat.format("HH:mm:ss", n.timestamp)
-            "[$time] ${n.packageName}\nTitle: ${n.title}\nText: ${n.text}"
+            val summaryTag = if (n.isGroupSummary) " [GROUP SUMMARY]" else ""
+            val subTextLine = if (!n.subText.isNullOrBlank()) "\nSubText: ${n.subText}" else ""
+            "[$time] ${n.packageName}$summaryTag\nTitle: ${n.title}$subTextLine\nContent: ${n.text}"
         }
         adapter.clear()
         adapter.addAll(items)
